@@ -1,0 +1,209 @@
+@use "./../../styles/variables";
+@use "./../../styles/mixin";
+
+.navbar {
+  background-color: variables.$white;
+  position: sticky;
+  top: 0;
+  z-index: 99;
+
+  &__inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: variables.$large;
+    padding: 2rem;
+    margin-inline: auto;
+    position: relative;
+    column-gap: 1.5rem;
+  }
+
+  &__left,
+  &__right {
+    display: flex;
+    align-items: center;
+    column-gap: 1.5rem;
+  }
+
+  &__hamburger {
+    @include mixin.button-base;
+    width: 24px;
+    height: 24px;
+    position: relative;
+
+    &:hover {
+      filter: brightness(0%);
+    }
+  }
+
+  &__hamburgerClose {
+    @include mixin.button-base;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    padding: 0;
+
+    &:hover {
+      filter: brightness(0%);
+    }
+  }
+
+  &__hamburgerCloseIcon {
+    width: 16px;
+    height: 16px;
+  }
+
+  &__cart {
+    @include mixin.button-base;
+    width: 24px;
+    height: 24px;
+    position: relative;
+
+    &:hover {
+      filter: brightness(0%);
+    }
+  }
+
+  &__profile {
+    @include mixin.button-base;
+    width: 24px;
+    height: 24px;
+    position: relative;
+
+    &:hover {
+      border: 2px solid variables.$orange;
+      border-radius: 50%;
+    }
+  }
+
+  &__links {
+    position: absolute;
+    flex-direction: column;
+    background-color: variables.$white;
+    top: 0;
+    left: -999px;
+    padding: 1.5rem;
+    width: 80%;
+    height: 100vh;
+    row-gap: 2.5rem;
+    display: none;
+    transition: 0.3s;
+    display: flex;
+    z-index: 999;
+
+    &--active {
+      left: 0;
+    }
+  }
+
+  &__overlay {
+    background-color: variables.$black;
+    width: 100vw;
+    height: 100vh;
+    opacity: 0;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: -9999px;
+    z-index: 99;
+
+    &--active {
+      left: 0;
+      transition: opacity 0.5s;
+      opacity: 0.75;
+    }
+  }
+
+  &__linksInner {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    gap: 2rem;
+  }
+
+  &__link {
+    text-decoration: none;
+    color: variables.$black;
+    font-weight: 700;
+  }
+
+  &__line {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 780px) {
+  .navbar {
+    &__hamburger {
+      display: none;
+    }
+
+    &__inner {
+      padding-bottom: 50px;
+    }
+
+    &__line {
+      display: block;
+      position: absolute;
+      bottom: 0;
+      left: 1.5rem;
+      right: 1.5rem;
+      color: variables.$light-grayish-blue;
+    }
+
+    &__left,
+    &__right {
+      column-gap: 2.5rem;
+    }
+
+    &__hamburgerClose {
+      display: none;
+    }
+
+    &__links {
+      background-color: transparent;
+      display: flex;
+      flex-direction: row;
+      position: relative;
+      height: fit-content;
+      padding: 0;
+      width: fit-content;
+      left: 0;
+    }
+
+    &__linksInner {
+      flex-direction: row;
+      display: flex;
+    }
+
+    &__link {
+      font-weight: 300;
+      position: relative;
+      color: variables.$dark-grayish-blue;
+
+      &:hover {
+        color: variables.$black;
+      }
+
+      &:hover::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        height: 4px;
+        top: 4.2rem;
+        background-color: variables.$orange;
+      }
+    }
+
+    &__profile {
+      width: 42px;
+      height: 42px;
+    }
+
+    &__overlay {
+      display: none;
+    }
+  }
+}

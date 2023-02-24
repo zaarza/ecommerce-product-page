@@ -1,7 +1,16 @@
 import React from "react";
+import { Navbar } from "@/components";
+import Head from "next/head";
 
 const Home = () => {
-  return <div>Home</div>;
+  return (
+    <>
+      <Head>
+        <title>Fall Limited Edition Sneakers | Sneakers</title>
+      </Head>
+      <Navbar />
+    </>
+  );
 };
 
 export default Home;
