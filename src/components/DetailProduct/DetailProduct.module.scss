@@ -1,0 +1,216 @@
+@use "./../../styles/mixin";
+@use "./../../styles/variables";
+
+.detailProduct {
+  &__large {
+    position: relative;
+    aspect-ratio: 1;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-inline: 1rem;
+  }
+
+  &__largeImage {
+    object-fit: cover;
+  }
+
+  &__previousImage,
+  &__nextImage {
+    @include mixin.button-base;
+    aspect-ratio: 1;
+    background-color: variables.$white;
+    width: 44px;
+    z-index: 1;
+    border-radius: 50%;
+    display: flex;
+    height: 44px;
+    justify-content: center;
+    align-items: center;
+
+    &:disabled {
+      visibility: hidden;
+    }
+  }
+
+  &__thumbnails {
+    display: none;
+  }
+
+  &__information {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+    padding: 1.5rem;
+  }
+
+  &__header {
+    display: flex;
+    flex-direction: column;
+    row-gap: 0.8rem;
+  }
+
+  &__priceLeft {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 1rem;
+  }
+
+  &__shopName {
+    color: variables.$orange;
+    font-weight: 700;
+    font-size: 1rem;
+  }
+
+  &__itemName {
+    font-size: 1.8rem;
+    font-weight: 700;
+    line-height: 2rem;
+  }
+
+  &__description {
+    font-size: 1rem;
+    line-height: 1.8rem;
+    color: variables.$dark-grayish-blue;
+  }
+
+  &__discount {
+    background-color: variables.$pale-orange;
+    width: fit-content;
+    padding: 0px 8px;
+    height: 30px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+  }
+
+  &__discountText {
+    color: variables.$orange;
+    font-weight: 700;
+    font-size: 1rem;
+  }
+
+  &__price {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__action {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+  }
+
+  &__totalPrice {
+    font-weight: 700;
+    font-size: 1.8rem;
+  }
+
+  &__originalPrice {
+    font-size: 1rem;
+    font-weight: 700;
+    text-decoration: line-through;
+    color: variables.$grayish-blue;
+  }
+
+  &__count {
+    background-color: variables.$light-grayish-blue;
+    padding: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 8px;
+  }
+
+  &__increase,
+  &__decrease {
+    @include mixin.button-base;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__addToCart {
+    @include mixin.button-base;
+    background-color: variables.$orange;
+    color: variables.$white;
+    width: 100%;
+    padding: 1rem;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 1rem;
+  }
+
+  &__addToCartIcon {
+    filter: brightness(300%);
+  }
+}
+
+@media screen and (min-width: variables.$medium) {
+  .detailProduct {
+    max-width: variables.$large;
+    margin-inline: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    column-gap: 5rem;
+    padding: 4rem 2rem;
+    row-gap: 2rem;
+    max-width: fit-content;
+
+    &__preview {
+      width: 50%;
+      max-width: 600px;
+      min-width: 300px;
+      display: flex;
+      flex-direction: column;
+      row-gap: 2rem;
+    }
+
+    &__thumbnails {
+      display: flex;
+      justify-content: space-between;
+      column-gap: 2rem;
+      overflow-x: auto;
+    }
+
+    &__thumbnail {
+      position: relative;
+      min-width: 80px;
+      aspect-ratio: 1;
+      border-radius: 1rem;
+      overflow: hidden;
+      cursor: pointer;
+
+      &--active {
+        border: 3px solid variables.$orange;
+
+        img {
+          opacity: 0.3;
+        }
+      }
+    }
+
+    &__information {
+      max-width: 500px;
+      width: 50%;
+      min-width: 300px;
+      padding: 0;
+    }
+
+    &__large {
+      border-radius: 1rem;
+      overflow: hidden;
+    }
+  }
+}

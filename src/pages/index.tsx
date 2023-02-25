@@ -1,5 +1,5 @@
 import React from "react";
-import { Navbar } from "@/components";
+import { Navbar, DetailProduct } from "@/components";
 import Head from "next/head";
 
 const Home = () => {
@@ -9,6 +9,7 @@ const Home = () => {
         <title>Fall Limited Edition Sneakers | Sneakers</title>
       </Head>
       <Navbar />
+      <DetailProduct />
     </>
   );
 };
