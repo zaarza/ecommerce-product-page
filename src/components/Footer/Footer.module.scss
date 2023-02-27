@@ -1,0 +1,10 @@
+.footer {
+  margin-inline: auto;
+  text-align: center;
+  padding-block: 2rem;
+
+  &__link {
+    color: #3b82f6;
+    text-decoration: none;
+  }
+}

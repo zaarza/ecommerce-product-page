@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Head from "next/head";
-import { Navbar, DetailProduct } from "@/components";
+import { Navbar, DetailProduct, Footer } from "@/components";
 import items from "@/data/items.json";
 
 const Index = () => {
@@ -57,6 +57,7 @@ const Index = () => {
       </Head>
       <Navbar basketItems={basketItems} deleteItemFromBasket={deleteItemFromBasket} />
       <DetailProduct product={product} addItemToBasket={addItemToBasket} />
+      <Footer />
     </>
   );
 };

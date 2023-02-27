@@ -25,7 +25,7 @@ type ProductImages = {
 };
 
 const DetailProduct = ({ product, addItemToBasket }: { product: any; addItemToBasket: Function }) => {
-  const [totalItemAmount, setTotalItemAmount] = useState<number>(1);
+  const [totalItemAmount, setTotalItemAmount] = useState<number>(0);
   const [currentLargeImageIndex, setCurrentLargeImageIndex] = useState<number>(0);
   const [lightbox, setLightbox] = useState<Boolean>(false);
 
