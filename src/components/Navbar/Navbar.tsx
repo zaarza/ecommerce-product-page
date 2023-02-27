@@ -38,8 +38,8 @@ const Navbar = ({ basketItems, deleteItemFromBasket }: { basketItems: Product[];
 
   return (
     <nav className={styles.navbar}>
-      <hr className={styles.navbar__line} />
       <div className={styles.navbar__inner}>
+        <hr className={styles.navbar__line} />
         <div className={styles.navbar__left}>
           <button onClick={toggleNavbar} type="button" className={styles.navbar__hamburger}>
             <Image

@@ -42,9 +42,9 @@
   }
 
   &__preview {
-    min-width: 80vw;
     display: flex;
     position: relative;
+    max-width: 80vw;
     justify-content: space-between;
     flex-direction: column;
     row-gap: 2rem;
@@ -94,13 +94,13 @@
   &__thumbnails {
     display: flex;
     column-gap: 2rem;
-    justify-content: center;
+    justify-content: space-between;
     overflow: auto;
   }
 
   &__thumbnail {
     position: relative;
-    min-width: 50px;
+    min-width: 75px;
     aspect-ratio: 1;
     cursor: pointer;
     border-radius: 8px;

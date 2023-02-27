@@ -34,9 +34,7 @@
   transition: 0.3s;
 
   &:hover {
-    background-color: variables.$pale-orange;
-    -webkit-box-shadow: 0px 64px 63px -41px rgba(235, 170, 124, 1);
-    -moz-box-shadow: 0px 64px 63px -41px rgba(235, 170, 124, 1);
-    box-shadow: 0px 64px 63px -41px rgba(235, 170, 124, 1);
+    background-color: #ffa66c;
+    box-shadow: 0px 12px 32px -2px rgba(224, 121, 46, 0.2);
   }
 }

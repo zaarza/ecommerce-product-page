@@ -9,9 +9,9 @@
 
   &__inner {
     display: flex;
+    max-width: 75rem;
     justify-content: space-between;
     align-items: center;
-    max-width: variables.$large;
     padding: 2rem;
     margin-inline: auto;
     position: relative;
@@ -245,13 +245,20 @@
       display: none;
     }
 
+    &__cartContainer {
+      margin-inline: initial;
+      right: 2rem;
+      max-width: 400px;
+    }
+
     &__line {
+      all: unset;
       display: block;
       position: absolute;
-      top: 97px;
-      left: 2rem;
-      right: 2rem;
-      color: variables.$light-grayish-blue;
+      bottom: 0;
+      width: 100%;
+      left: 0;
+      border: 1px solid variables.$light-grayish-blue;
     }
 
     &__left,
@@ -294,7 +301,7 @@
         left: 0;
         right: 0;
         height: 4px;
-        top: 4.2rem;
+        top: 58px;
         background-color: variables.$orange;
       }
     }
@@ -306,16 +313,6 @@
 
     &__overlay {
       display: none;
-    }
-  }
-}
-
-@media screen and (min-width: variables.$medium) {
-  .navbar {
-    &__cartContainer {
-      margin-inline: initial;
-      right: 2rem;
-      max-width: 400px;
     }
   }
 }
