@@ -18,10 +18,6 @@ const Navbar = ({ basketItems, deleteItemFromBasket }) => {
     setCart(!cart);
   };
 
-  useEffect(() => {
-    console.log("oke");
-  }, [basketItems]);
-
   return (
     <nav className={styles.navbar}>
       <hr className={styles.navbar__line} />

@@ -4,45 +4,61 @@ import { Navbar, DetailProduct } from "@/components";
 import items from "@/data/items.json";
 
 const Index = () => {
-  const [basketItems, setBasketItems] = useState([]);
+  const [basketItems, setBasketItems] = useState<Product[]>([]);
   const currentId = 1;
 
-  const product = items.find((item) => item.id === currentId);
+  type Product = {
+    id?: number;
+    name?: string;
+    shopName?: string;
+    description?: string;
+    isDiscount?: boolean;
+    discountPercentage?: number;
+    originalPrice?: number;
+    totalPrice?: number;
+    images?: ProductImages[];
+    value?: number;
+    amount?: number;
+  };
+
+  type ProductImages = {
+    full: string;
+    thumbnail: string;
+  };
+
+  const product: Product | undefined = items.find((item: Product): boolean => item.id === currentId);
 
   const deleteItemFromBasket = (id: number) => {
-    const filteredBasket = basketItems.filter((basketItem) => {
-      return basketItem.id !== id;
-    });
+    const filteredBasket: Product[] = basketItems.filter((basketItem: Product): boolean => basketItem.id !== id);
     setBasketItems(filteredBasket);
   };
 
-  const addItemToBasket = (product: object, amount: number) => {
+  const addItemToBasket = (product: Product, amount: number) => {
     if (amount === 0) return;
 
-    const isTargetExistInBasketItems = basketItems.filter((basketItem) => {
+    const isTargetExistInBasketItems: Product[] = basketItems.filter((basketItem: Product): boolean => {
       return basketItem.id === currentId;
     });
 
     if (isTargetExistInBasketItems.length !== 0) {
-      const filteredBasket = basketItems.filter((basketItem) => {
-        return basketItem.id !== product.id;
-      });
-      const newItem = basketItems.find((basketItems) => {
-        return basketItems.id === product.id;
-      });
-      if (newItem !== undefined) {
+      const filteredBasket: Product[] = basketItems.filter(
+        (basketItem: Product): boolean => basketItem.id !== product.id
+      );
+
+      const newItem: Product | undefined = basketItems.find(
+        (basketItems: Product): boolean => basketItems.id === product.id
+      );
+
+      if (newItem !== undefined && newItem.amount !== undefined) {
         newItem.amount = newItem.amount += amount;
       }
+
       setBasketItems([...filteredBasket, newItem]);
       return;
     }
 
     setBasketItems([...basketItems, { ...product, amount }]);
   };
-
-  useEffect(() => {
-    console.log(basketItems);
-  });
 
   return (
     <>

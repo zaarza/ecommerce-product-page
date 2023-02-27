@@ -1,20 +1,45 @@
 /* eslint-disable react/no-unescaped-entities */
-import React, { useEffect, useState } from "react";
+import React, { MouseEventHandler, useEffect, useState } from "react";
 import Image from "next/image";
 import styles from "./DetailProduct.module.scss";
 import priceToDollarsFormatter from "@/utils/priceFormatter";
 import Lightbox from "../Lightbox/Lightbox";
 
-const DetailProduct = ({ product, addItemToBasket }) => {
-  const [totalItemAmount, setTotalItemAmount] = useState<Number>(1);
-  const [currentLargeImageIndex, setCurrentLargeImageIndex] = useState<Number>(0);
-  const [lightbox, setLightbox] = useState<Boolean>(false);
-  const { id, name, shopName, description, isDiscount, discountPercentage, originalPrice, totalPrice, images } =
-    product;
+interface Product {
+  id: number;
+  name: string;
+  shopName: string;
+  description: string;
+  isDiscount: boolean;
+  discountPercentage: number;
+  originalPrice: number;
+  totalPrice: number;
+  images: ProductImages[];
+  value?: number;
+  amount?: number;
+}
 
-  const resetTotalItemAmount = (): void => {
-    setTotalItemAmount(0);
-  };
+interface ProductImages {
+  full: string;
+  thumbnail: string;
+}
+
+const DetailProduct = ({ product, addItemToBasket }: { product: Product; addItemToBasket: Function }) => {
+  const [totalItemAmount, setTotalItemAmount] = useState<number>(1);
+  const [currentLargeImageIndex, setCurrentLargeImageIndex] = useState<number>(0);
+  const [lightbox, setLightbox] = useState<Boolean>(false);
+
+  const {
+    id,
+    name,
+    shopName,
+    description,
+    isDiscount,
+    discountPercentage,
+    originalPrice,
+    totalPrice,
+    images,
+  }: Product = product;
 
   const increaseTotalItemAmount = (): void => {
     setTotalItemAmount(totalItemAmount + 1);
@@ -24,7 +49,7 @@ const DetailProduct = ({ product, addItemToBasket }) => {
     if (totalItemAmount > 1) setTotalItemAmount(totalItemAmount - 1);
   };
 
-  const decreaseCurrentLargeImageIndex = (event): void => {
+  const decreaseCurrentLargeImageIndex = (event: Event): void => {
     event.stopPropagation();
     if (currentLargeImageIndex === 0) {
       setCurrentLargeImageIndex(images.length - 1);
@@ -33,7 +58,7 @@ const DetailProduct = ({ product, addItemToBasket }) => {
     setCurrentLargeImageIndex(currentLargeImageIndex - 1);
   };
 
-  const increaseCurrentLargeImageIndex = (event): void => {
+  const increaseCurrentLargeImageIndex = (event: Event): void => {
     event.stopPropagation();
     if (currentLargeImageIndex === images.length - 1) {
       setCurrentLargeImageIndex(0);
@@ -44,10 +69,10 @@ const DetailProduct = ({ product, addItemToBasket }) => {
 
   return (
     <main className={styles.detailProduct}>
-      {lightbox && <Lightbox images={images} setLightbox={setLightbox} />}
+      {lightbox && <Lightbox images={images} setLightbox={setLightbox} currentIndex={currentLargeImageIndex} />}
       <div className={styles.detailProduct__preview}>
         <div onClick={() => setLightbox(!lightbox)} className={styles.detailProduct__large}>
-          <button onClick={decreaseCurrentLargeImageIndex} className={styles.detailProduct__previousImage}>
+          <button onClick={() => decreaseCurrentLargeImageIndex} className={styles.detailProduct__previousImage}>
             <Image
               className={styles.detailProduct__previousImageIcon}
               src="/assets/images/icons/icon-previous.svg"
@@ -62,7 +87,7 @@ const DetailProduct = ({ product, addItemToBasket }) => {
             alt="Product image"
             fill={true}
           />
-          <button onClick={increaseCurrentLargeImageIndex} className={styles.detailProduct__nextImage}>
+          <button onClick={() => increaseCurrentLargeImageIndex} className={styles.detailProduct__nextImage}>
             <Image
               className={styles.detailProduct__nextImageIcon}
               src="/assets/images/icons/icon-next.svg"

@@ -2,8 +2,21 @@ import Image from "next/image";
 import React, { useState } from "react";
 import styles from "./Lightbox.module.scss";
 
-const Lightbox = ({ images, setLightbox }) => {
-  const [currentLargeImageIndex, setCurrentLargeImageIndex] = useState<Number>(0);
+type Images = {
+  full: string;
+  thumbnail: string;
+};
+
+const Lightbox = ({
+  images,
+  setLightbox,
+  currentIndex,
+}: {
+  images: Images[];
+  setLightbox: Function;
+  currentIndex: number;
+}) => {
+  const [currentLargeImageIndex, setCurrentLargeImageIndex] = useState<number>(currentIndex || 0);
 
   const decreaseCurrentLargeImageIndex = (): void => {
     if (currentLargeImageIndex === 0) {
