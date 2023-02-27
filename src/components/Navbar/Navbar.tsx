@@ -6,7 +6,25 @@ import priceToDollarsFormatter from "@/utils/priceFormatter";
 import multiplyPriceByItemAmount from "@/utils/multiplyPriceByItemAmount";
 import getTotalBasketItem from "@/utils/getTotalBasketItem";
 
-const Navbar = ({ basketItems, deleteItemFromBasket }) => {
+type Product = {
+  id: number;
+  name: string;
+  shopName: string;
+  description: string;
+  isDiscount: boolean;
+  discountPercentage: number;
+  originalPrice: number;
+  totalPrice: number;
+  images: ProductImages[];
+  amount: number;
+};
+
+type ProductImages = {
+  full: string;
+  thumbnail: string;
+};
+
+const Navbar = ({ basketItems, deleteItemFromBasket }: { basketItems: Product[]; deleteItemFromBasket: Function }) => {
   const [navbarLinks, setNavbarLinks] = useState<boolean>(false);
   const [cart, setCart] = useState<boolean>(false);
 
@@ -109,7 +127,7 @@ const Navbar = ({ basketItems, deleteItemFromBasket }) => {
               </div>
               <div className={styles.navbar__items}>
                 {basketItems.length !== 0 &&
-                  basketItems.map((basketItem, index) => {
+                  basketItems.map((basketItem: Product, index: number) => {
                     return (
                       <div className={styles.navbar__item} key={`basketItem-${index}`}>
                         <div className={styles.navbar__imageContainer}>

@@ -5,7 +5,7 @@ import styles from "./DetailProduct.module.scss";
 import priceToDollarsFormatter from "@/utils/priceFormatter";
 import Lightbox from "../Lightbox/Lightbox";
 
-interface Product {
+type Product = {
   id: number;
   name: string;
   shopName: string;
@@ -17,14 +17,14 @@ interface Product {
   images: ProductImages[];
   value?: number;
   amount?: number;
-}
+};
 
-interface ProductImages {
+type ProductImages = {
   full: string;
   thumbnail: string;
-}
+};
 
-const DetailProduct = ({ product, addItemToBasket }: { product: Product; addItemToBasket: Function }) => {
+const DetailProduct = ({ product, addItemToBasket }: { product: any; addItemToBasket: Function }) => {
   const [totalItemAmount, setTotalItemAmount] = useState<number>(1);
   const [currentLargeImageIndex, setCurrentLargeImageIndex] = useState<number>(0);
   const [lightbox, setLightbox] = useState<Boolean>(false);
@@ -49,7 +49,7 @@ const DetailProduct = ({ product, addItemToBasket }: { product: Product; addItem
     if (totalItemAmount > 1) setTotalItemAmount(totalItemAmount - 1);
   };
 
-  const decreaseCurrentLargeImageIndex = (event: Event): void => {
+  const decreaseCurrentLargeImageIndex = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
     event.stopPropagation();
     if (currentLargeImageIndex === 0) {
       setCurrentLargeImageIndex(images.length - 1);
@@ -58,7 +58,7 @@ const DetailProduct = ({ product, addItemToBasket }: { product: Product; addItem
     setCurrentLargeImageIndex(currentLargeImageIndex - 1);
   };
 
-  const increaseCurrentLargeImageIndex = (event: Event): void => {
+  const increaseCurrentLargeImageIndex = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
     event.stopPropagation();
     if (currentLargeImageIndex === images.length - 1) {
       setCurrentLargeImageIndex(0);
@@ -72,7 +72,10 @@ const DetailProduct = ({ product, addItemToBasket }: { product: Product; addItem
       {lightbox && <Lightbox images={images} setLightbox={setLightbox} currentIndex={currentLargeImageIndex} />}
       <div className={styles.detailProduct__preview}>
         <div onClick={() => setLightbox(!lightbox)} className={styles.detailProduct__large}>
-          <button onClick={() => decreaseCurrentLargeImageIndex} className={styles.detailProduct__previousImage}>
+          <button
+            onClick={(event) => decreaseCurrentLargeImageIndex(event)}
+            className={styles.detailProduct__previousImage}
+          >
             <Image
               className={styles.detailProduct__previousImageIcon}
               src="/assets/images/icons/icon-previous.svg"
@@ -87,7 +90,10 @@ const DetailProduct = ({ product, addItemToBasket }: { product: Product; addItem
             alt="Product image"
             fill={true}
           />
-          <button onClick={() => increaseCurrentLargeImageIndex} className={styles.detailProduct__nextImage}>
+          <button
+            onClick={(event) => increaseCurrentLargeImageIndex(event)}
+            className={styles.detailProduct__nextImage}
+          >
             <Image
               className={styles.detailProduct__nextImageIcon}
               src="/assets/images/icons/icon-next.svg"

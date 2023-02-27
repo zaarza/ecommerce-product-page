@@ -4,60 +4,50 @@ import { Navbar, DetailProduct } from "@/components";
 import items from "@/data/items.json";
 
 const Index = () => {
-  const [basketItems, setBasketItems] = useState<Product[]>([]);
+  const [basketItems, setBasketItems] = useState<Items[]>([]);
   const currentId = 1;
 
-  type Product = {
-    id?: number;
-    name?: string;
-    shopName?: string;
-    description?: string;
-    isDiscount?: boolean;
-    discountPercentage?: number;
-    originalPrice?: number;
-    totalPrice?: number;
-    images?: ProductImages[];
-    value?: number;
-    amount?: number;
-  };
+  interface Product {
+    id: number;
+    name: string;
+    shopName: string;
+    description: string;
+    isDiscount: boolean;
+    discountPercentage: number;
+    originalPrice: number;
+    totalPrice: number;
+    images: ProductImages[];
+  }
 
-  type ProductImages = {
+  interface Items extends Product {
+    amount: number;
+  }
+
+  interface ProductImages {
     full: string;
     thumbnail: string;
-  };
+  }
 
   const product: Product | undefined = items.find((item: Product): boolean => item.id === currentId);
 
   const deleteItemFromBasket = (id: number) => {
-    const filteredBasket: Product[] = basketItems.filter((basketItem: Product): boolean => basketItem.id !== id);
+    const filteredBasket: Items[] = basketItems.filter((basketItem: Product): boolean => basketItem.id !== id);
     setBasketItems(filteredBasket);
   };
 
-  const addItemToBasket = (product: Product, amount: number) => {
+  const addItemToBasket = (product: Product | Items, amount: number) => {
     if (amount === 0) return;
+    const target = basketItems.find((basketItem) => basketItem.id === product.id);
 
-    const isTargetExistInBasketItems: Product[] = basketItems.filter((basketItem: Product): boolean => {
-      return basketItem.id === currentId;
-    });
-
-    if (isTargetExistInBasketItems.length !== 0) {
-      const filteredBasket: Product[] = basketItems.filter(
-        (basketItem: Product): boolean => basketItem.id !== product.id
-      );
-
-      const newItem: Product | undefined = basketItems.find(
-        (basketItems: Product): boolean => basketItems.id === product.id
-      );
-
-      if (newItem !== undefined && newItem.amount !== undefined) {
-        newItem.amount = newItem.amount += amount;
-      }
-
-      setBasketItems([...filteredBasket, newItem]);
+    if (target !== undefined) {
+      const filteredBasketItems = basketItems.filter((basketItem) => basketItem.id !== target.id);
+      const cloneTarget: Items = target;
+      cloneTarget.amount = cloneTarget.amount + amount;
+      setBasketItems([...filteredBasketItems, cloneTarget]);
       return;
     }
 
-    setBasketItems([...basketItems, { ...product, amount }]);
+    setBasketItems((currentState) => [...currentState, { ...product, amount }]);
   };
 
   return (
