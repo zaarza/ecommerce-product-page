@@ -1,51 +1,53 @@
 /* eslint-disable react/no-unescaped-entities */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import styles from "./DetailProduct.module.scss";
+import priceToDollarsFormatter from "@/utils/priceFormatter";
+import Lightbox from "../Lightbox/Lightbox";
 
-const DetailProduct = () => {
-  const images = [
-    {
-      full: "image-product-1.jpg",
-      thumbnail: "image-product-1-thumbnail.jpg",
-    },
-    {
-      full: "image-product-2.jpg",
-      thumbnail: "image-product-2-thumbnail.jpg",
-    },
-    {
-      full: "image-product-3.jpg",
-      thumbnail: "image-product-3-thumbnail.jpg",
-    },
-    {
-      full: "image-product-4.jpg",
-      thumbnail: "image-product-4-thumbnail.jpg",
-    },
-  ];
+const DetailProduct = ({ product, addItemToBasket }) => {
+  const [totalItemAmount, setTotalItemAmount] = useState<Number>(1);
+  const [currentLargeImageIndex, setCurrentLargeImageIndex] = useState<Number>(0);
+  const [lightbox, setLightbox] = useState<Boolean>(false);
+  const { id, name, shopName, description, isDiscount, discountPercentage, originalPrice, totalPrice, images } =
+    product;
 
-  const [currentLargeImageIndex, setCurrentLargeImageIndex] = useState(0);
-
-  const decreaseCurrentLargeImageIndex = () => {
-    currentLargeImageIndex > 0 &&
-      setCurrentLargeImageIndex(currentLargeImageIndex - 1);
+  const resetTotalItemAmount = (): void => {
+    setTotalItemAmount(0);
   };
 
-  const increaseCurrentLargeImageIndex = () => {
-    if (currentLargeImageIndex < images.length - 1) {
-      setCurrentLargeImageIndex(currentLargeImageIndex + 1);
-      console.log(currentLargeImageIndex);
+  const increaseTotalItemAmount = (): void => {
+    setTotalItemAmount(totalItemAmount + 1);
+  };
+
+  const decreaseTotalItemAmount = (): void => {
+    if (totalItemAmount > 1) setTotalItemAmount(totalItemAmount - 1);
+  };
+
+  const decreaseCurrentLargeImageIndex = (event): void => {
+    event.stopPropagation();
+    if (currentLargeImageIndex === 0) {
+      setCurrentLargeImageIndex(images.length - 1);
+      return;
     }
+    setCurrentLargeImageIndex(currentLargeImageIndex - 1);
+  };
+
+  const increaseCurrentLargeImageIndex = (event): void => {
+    event.stopPropagation();
+    if (currentLargeImageIndex === images.length - 1) {
+      setCurrentLargeImageIndex(0);
+      return;
+    }
+    setCurrentLargeImageIndex(currentLargeImageIndex + 1);
   };
 
   return (
     <main className={styles.detailProduct}>
+      {lightbox && <Lightbox images={images} setLightbox={setLightbox} />}
       <div className={styles.detailProduct__preview}>
-        <div className={styles.detailProduct__large}>
-          <button
-            disabled={currentLargeImageIndex === 0 && true}
-            onClick={decreaseCurrentLargeImageIndex}
-            className={styles.detailProduct__previousImage}
-          >
+        <div onClick={() => setLightbox(!lightbox)} className={styles.detailProduct__large}>
+          <button onClick={decreaseCurrentLargeImageIndex} className={styles.detailProduct__previousImage}>
             <Image
               className={styles.detailProduct__previousImageIcon}
               src="/assets/images/icons/icon-previous.svg"
@@ -56,15 +58,11 @@ const DetailProduct = () => {
           </button>
           <Image
             className={styles.detailProduct__largeImage}
-            src={`/assets/images/product/${images[currentLargeImageIndex].full}`}
+            src={images[currentLargeImageIndex].full}
             alt="Product image"
             fill={true}
           />
-          <button
-            disabled={currentLargeImageIndex === images.length - 1 && true}
-            onClick={increaseCurrentLargeImageIndex}
-            className={styles.detailProduct__nextImage}
-          >
+          <button onClick={increaseCurrentLargeImageIndex} className={styles.detailProduct__nextImage}>
             <Image
               className={styles.detailProduct__nextImageIcon}
               src="/assets/images/icons/icon-next.svg"
@@ -80,18 +78,12 @@ const DetailProduct = () => {
               onClick={() => setCurrentLargeImageIndex(index)}
               className={
                 index === currentLargeImageIndex
-                  ? styles.detailProduct__thumbnail +
-                    " " +
-                    styles["detailProduct__thumbnail--active"]
+                  ? styles.detailProduct__thumbnail + " " + styles["detailProduct__thumbnail--active"]
                   : styles.detailProduct__thumbnail
               }
               key={`thumbnail-${index}`}
             >
-              <Image
-                src={`/assets/images/product/${image.thumbnail}`}
-                alt="Product images"
-                fill={true}
-              />
+              <Image src={image.thumbnail} alt="Product images" fill={true} />
             </div>
           ))}
         </div>
@@ -99,45 +91,37 @@ const DetailProduct = () => {
       <div className={styles.detailProduct__information}>
         <div className={styles.detailProduct__header}>
           <h2 className={styles.detailProduct__shopName}>SNEAKER COMPANY</h2>
-          <h1 className={styles.detailProduct__itemName}>
-            Fall Limited Edition Sneakers
-          </h1>
+          <h1 className={styles.detailProduct__itemName}>{name}</h1>
         </div>
-        <p className={styles.detailProduct__description}>
-          These low-profile sneakers are your perfect casual wear companion.
-          Featuring a durable rubber outer sole, they'll withstand everything
-          the weather can offer
-        </p>
+        <p className={styles.detailProduct__description}>{description}</p>
         <div className={styles.detailProduct__price}>
           <div className={styles.detailProduct__priceLeft}>
-            <p className={styles.detailProduct__totalPrice}>$125.00</p>
-            <div className={styles.detailProduct__discount}>
-              <p className={styles.detailProduct__discountText}>50%</p>
-            </div>
+            <p className={styles.detailProduct__totalPrice}>
+              {totalPrice !== undefined ? priceToDollarsFormatter(totalPrice) : priceToDollarsFormatter(originalPrice)}
+            </p>
+            {isDiscount && (
+              <div className={styles.detailProduct__discount}>
+                <p className={styles.detailProduct__discountText}>{discountPercentage}%</p>
+              </div>
+            )}
           </div>
-          <p className={styles.detailProduct__originalPrice}>$250.00</p>
+          <p className={styles.detailProduct__originalPrice}>{priceToDollarsFormatter(originalPrice) || ""}</p>
         </div>
         <div className={styles.detailProduct__action}>
           <div className={styles.detailProduct__count}>
-            <button className={styles.detailProduct__decrease}>
-              <Image
-                src="/assets/images/icons/icon-minus.svg"
-                alt="Decrease item amount"
-                width={12}
-                height={12}
-              />
+            <button onClick={decreaseTotalItemAmount} className={styles.detailProduct__decrease}>
+              <Image src="/assets/images/icons/icon-minus.svg" alt="Decrease item amount" width={12} height={12} />
             </button>
-            <p className={styles.detailProduct__totalItem}>0</p>
-            <button className={styles.detailProduct__increase}>
-              <Image
-                src="/assets/images/icons/icon-plus.svg"
-                alt="Increase item amount"
-                width={12}
-                height={12}
-              />
+            <p className={styles.detailProduct__totalItem}>{totalItemAmount}</p>
+            <button onClick={increaseTotalItemAmount} className={styles.detailProduct__increase}>
+              <Image src="/assets/images/icons/icon-plus.svg" alt="Increase item amount" width={12} height={12} />
             </button>
           </div>
-          <button className={styles.detailProduct__addToCart} type="button">
+          <button
+            onClick={() => addItemToBasket(product, totalItemAmount)}
+            className={styles.detailProduct__addToCart}
+            type="button"
+          >
             <Image
               className={styles.detailProduct__addToCartIcon}
               src="/assets/images/icons/icon-cart.svg"

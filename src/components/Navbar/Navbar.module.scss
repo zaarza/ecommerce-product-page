@@ -16,6 +16,7 @@
     margin-inline: auto;
     position: relative;
     column-gap: 1.5rem;
+    position: relative;
   }
 
   &__left,
@@ -27,26 +28,15 @@
 
   &__hamburger {
     @include mixin.button-base;
-    width: 24px;
-    height: 24px;
-    position: relative;
-
-    &:hover {
-      filter: brightness(0%);
-    }
+    @include mixin.button-icon;
   }
 
   &__hamburgerClose {
     @include mixin.button-base;
-    width: 44px;
-    height: 44px;
+    @include mixin.button-icon;
     display: flex;
     align-items: center;
     padding: 0;
-
-    &:hover {
-      filter: brightness(0%);
-    }
   }
 
   &__hamburgerCloseIcon {
@@ -56,13 +46,7 @@
 
   &__cart {
     @include mixin.button-base;
-    width: 24px;
-    height: 24px;
-    position: relative;
-
-    &:hover {
-      filter: brightness(0%);
-    }
+    @include mixin.button-icon;
   }
 
   &__profile {
@@ -131,24 +115,142 @@
   &__line {
     display: none;
   }
+
+  &__cartContainer {
+    position: absolute;
+    right: 0;
+    top: 70%;
+    visibility: hidden;
+    opacity: 0;
+    transition: 0.3s;
+    width: 100%;
+    padding: 0.5rem;
+
+    &--active {
+      top: 80%;
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+
+  &__cartInner {
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+    background-color: variables.$white;
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0px 15px 24px rgba(0, 0, 0, 0.15);
+    cursor: default;
+    padding: 1.5rem;
+    width: 100%;
+    position: relative;
+    box-shadow: 0px 17px 44px -23px rgba(0, 0, 0, 0.74);
+  }
+
+  &__empty {
+    display: flex;
+    justify-content: center;
+    padding-block: 5rem;
+  }
+
+  &__emptyText {
+    font-weight: 700;
+    color: variables.$dark-grayish-blue;
+  }
+
+  &__header {
+    height: 4rem;
+  }
+
+  &__title {
+    font-weight: 700;
+    font-size: 1.5rem;
+  }
+
+  &__titleLine {
+    position: absolute;
+    top: 4.5rem;
+    width: 100%;
+    left: 0;
+    border-color: variables.$light-grayish-blue;
+  }
+
+  &__remove {
+    @include mixin.button-base;
+    @include mixin.button-icon;
+    width: 16px;
+    height: 16px;
+    position: relative;
+  }
+
+  &__checkout {
+    @include mixin.button-base;
+    @include mixin.primary-button;
+  }
+
+  &__name {
+    font-size: 1rem;
+    color: variables.$dark-grayish-blue;
+  }
+
+  &__imageContainer {
+    position: relative;
+    width: 44px;
+    aspect-ratio: 1;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  &__item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    column-gap: 1rem;
+  }
+
+  &__cartItemInformation {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__price {
+    display: flex;
+    color: variables.$dark-grayish-blue;
+    column-gap: 0.5rem;
+  }
+
+  &__total {
+    color: variables.$black;
+    font-weight: 700;
+  }
+
+  &__cartNumber {
+    position: absolute;
+    top: -10px;
+    right: -15px;
+    border-radius: 8px;
+    padding: 0px 10px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    background-color: variables.$orange;
+    color: variables.$white;
+  }
 }
 
-@media screen and (min-width: 780px) {
+@media screen and (min-width: variables.$medium) {
   .navbar {
     &__hamburger {
       display: none;
     }
 
-    &__inner {
-      padding-bottom: 50px;
-    }
-
     &__line {
       display: block;
       position: absolute;
-      bottom: 0;
-      left: 1.5rem;
-      right: 1.5rem;
+      top: 97px;
+      left: 2rem;
+      right: 2rem;
       color: variables.$light-grayish-blue;
     }
 
@@ -204,6 +306,16 @@
 
     &__overlay {
       display: none;
+    }
+  }
+}
+
+@media screen and (min-width: variables.$medium) {
+  .navbar {
+    &__cartContainer {
+      margin-inline: initial;
+      right: 2rem;
+      max-width: 400px;
     }
   }
 }

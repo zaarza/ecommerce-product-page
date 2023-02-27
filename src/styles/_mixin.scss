@@ -1,5 +1,42 @@
+@use "./variables";
+
 @mixin button-base {
   background-color: transparent;
   border: transparent;
   cursor: pointer;
+
+  &:active {
+    transform: translateY(-2px);
+  }
+}
+
+@mixin button-icon {
+  width: 24px;
+  height: 24px;
+  position: relative;
+
+  &:hover > img {
+    filter: brightness(0%);
+  }
+
+  &:focus {
+    outline: transparent;
+    border: transparent;
+  }
+}
+
+@mixin primary-button {
+  background-color: variables.$orange;
+  color: variables.$white;
+  border-radius: 8px;
+  padding: 1rem;
+  font-weight: 700;
+  transition: 0.3s;
+
+  &:hover {
+    background-color: variables.$pale-orange;
+    -webkit-box-shadow: 0px 64px 63px -41px rgba(235, 170, 124, 1);
+    -moz-box-shadow: 0px 64px 63px -41px rgba(235, 170, 124, 1);
+    box-shadow: 0px 64px 63px -41px rgba(235, 170, 124, 1);
+  }
 }

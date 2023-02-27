@@ -10,6 +10,7 @@
     justify-content: space-between;
     align-items: center;
     padding-inline: 1rem;
+    cursor: pointer;
   }
 
   &__largeImage {
@@ -19,15 +20,14 @@
   &__previousImage,
   &__nextImage {
     @include mixin.button-base;
-    aspect-ratio: 1;
     background-color: variables.$white;
     width: 44px;
-    z-index: 1;
     border-radius: 50%;
     display: flex;
     height: 44px;
     justify-content: center;
     align-items: center;
+    z-index: 1;
 
     &:disabled {
       visibility: hidden;
@@ -137,13 +137,8 @@
 
   &__addToCart {
     @include mixin.button-base;
-    background-color: variables.$orange;
-    color: variables.$white;
+    @include mixin.primary-button;
     width: 100%;
-    padding: 1rem;
-    border-radius: 8px;
-    font-weight: 700;
-    font-size: 1rem;
     display: flex;
     justify-content: center;
     align-items: center;
